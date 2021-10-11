@@ -17,16 +17,32 @@ function twoSum(arr, target){
 //   }
 //   return false;
 
-  // Hash Map
-  let map = new Map();
-  for( let i = 0; i < arr.length; i++ ){
-    const complement = target - arr[i];
-    if( map.has(complement) ){
-      return [i, map.get(complement)];
+  // multiple pointers
+  arr.sort((a,b) => a - b); 
+  let left = 0;
+  let right = arr.length - 1;
+  
+  while( left < right ){
+    let sum = arr[left] + arr[right];
+    if( sum === target ){
+      return [arr[left], arr[right]]
+    } else if( sum > target ){
+      right--;
+    } else{
+      left++
     }
-    map.set(arr[i], i);
   }
-  return false;
+
+  // Hash Map
+  // let map = new Map();
+  // for( let i = 0; i < arr.length; i++ ){
+  //   const complement = target - arr[i];
+  //   if( map.has(complement) ){
+  //     return [i, map.get(complement)];
+  //   }
+  //   map.set(arr[i], i);
+  // }
+  // return false;
 }
 
 console.log(twoSum([2,7,11,15], 26))
