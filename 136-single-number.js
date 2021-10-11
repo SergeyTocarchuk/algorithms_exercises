@@ -1,0 +1,21 @@
+/**
+136. Single Number
+https://leetcode.com/problems/single-number/
+
+Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
+You must implement a solution with a linear runtime complexity and use only constant extra space.
+*/
+
+function singleNumber(nums){
+  let object = {};
+  for( let key of nums ){
+    if( object[key] ){
+      delete object[key];
+    } else {
+      object[key] = true;
+    }
+  }
+  return Object.keys(object)[0];
+}
+
+console.log(singleNumber([4,1,2,1,2]))
