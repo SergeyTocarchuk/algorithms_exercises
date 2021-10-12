@@ -17,16 +17,33 @@ function intersect(arr1, arr2){
   
   let result = [];
   // each element in nums1 add it to the hash map
-  let map = new Map();
+//   let map = new Map();
+//   for( let i = 0; i < arr1.length; i++ ){
+//     map.set(arr1[i], map.get(arr1[i]) + 1 || 1);
+//   }
+//   for( let j = 0; j < arr2.length; j++ ){
+//     if( map.has(arr2[j]) ){
+//       result.push(arr2[j]);
+//       // Decrement the count in the hash map
+//       map.set(arr2[j], map.get(arr2[j]) - 1)
+//       if( map.get(arr2[j]) === 0 ) map.delete(arr2[j])
+//     }
+//   }
+  let object = {};
   for( let i = 0; i < arr1.length; i++ ){
-    map.set(arr1[i], map.get(arr1[i]) + 1 || 1);
+    const key = arr1[i];
+    if( object[key] ){
+      object[key]++;
+    } else{
+      object[key] = 1;
+    }
   }
   for( let j = 0; j < arr2.length; j++ ){
-    if( map.has(arr2[j]) ){
-      result.push(arr2[j]);
-      // Decrement the count in the hash map
-      map.set(arr2[j], map.get(arr2[j]) - 1)
-      if( map.get(arr2[j]) === 0 ) map.delete(arr2[j])
+    const prop = arr2[j]
+    if( object[prop] ){
+      result.push(prop);
+      object[prop]--;
+      if( object[prop] === 0 ) delete object[prop];
     }
   }
   return result;
