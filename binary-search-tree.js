@@ -57,34 +57,37 @@ class BinarySearchTree {
   }
 
   delete(val){
-    if( this.root === null ) return undefined;
     let current = this.root;
-    while( current ){
-      if( val < current.value ){
-        current = current.left;
-      } else if( val > current.value ){
-        current = current.right;
-      } else {
-        if( current.left === null ){
-          this.root = current.right;
-          return this;
+    const removeNode = function(current, val){
+      if( current === null ) return undefined;
+      if( val === current.value ){
+        // has no children
+        if( current.left === null && current.right === null ){
+          return null;
+        // has only right child
+        } else if( current.left === null ){
+          return current.right;
+        // has only left child
         } else if( current.right === null ){
-          this.root = current.left;
-          return this;
-        } else {
-// find the smallest Node in the right subtree 
-          let min = current.right;
-          let temp = min.left;
-          while( temp.left !== null ){
-            min = temp;
-            temp = temp.left;
-          }
-          current = min;
-          min = null;
+          return current.left;
         }
+        // Node has 2 children: find the smallest Node in the right subtree 
+        let min = current.right;
+        while( min.left !== null ){
+          min = min.left;
+        }
+        current.value = min.value;
+        current.right = removeNode(current.right, min.value);
+        return current;
+      } else if( val < current.value ){
+        current.left = removeNode(current.left, val);
+        return current;
+      } else {
+        current.right = removeNode(current.right, val);
+        return current;
       }
     }
-    return this;
+    this.root = removeNode(this.root, val);
   }
 }
 
@@ -100,4 +103,3 @@ tree.insert(50);
 tree.insert(32);
 tree.insert(77);
 tree.insert(25);
-tree.delete(10);
